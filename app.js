@@ -13,6 +13,6 @@ app.use(express.json()); //parsing json
 app.use(express.urlencoded({ extended: false }));
 
 // Routes
-app.use(authRoutes);
+app.use("/api", authRoutes);
 
 app.listen(process.env.PORT, () => console.log(`Backend server is listening`));
