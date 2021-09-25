@@ -17,6 +17,26 @@ const accountSchema = new mongoose.Schema({
   },
 });
 
+// Sebelum dimasukkan ke MongoDB
+accountSchema.pre("save", async function (next) {
+  const salt = await bcrypt.genSalt();
+  this.password = await bcrypt.hash(this.password, salt);
+  next();
+});
+
+// membuat statics login
+accountSchema.statics.login = async function (email, password) {
+  const account = await this.findOne({ email });
+  if (account) {
+    const auth = await bcrypt.compare(password, account.password);
+    if (auth) {
+      return account;
+    }
+    throw Error("Wrong credentials");
+  }
+  throw Error("Wrong credentials");
+};
+
 const Account = mongoose.model("account", accountSchema);
 
 module.exports = Account;
