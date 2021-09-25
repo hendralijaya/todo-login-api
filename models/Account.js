@@ -32,9 +32,9 @@ accountSchema.statics.login = async function (email, password) {
     if (auth) {
       return account;
     }
-    throw Error("Wrong credentials");
+    throw Error("incorrect password");
   }
-  throw Error("Wrong credentials");
+  throw Error("incorrect email");
 };
 
 const Account = mongoose.model("account", accountSchema);
